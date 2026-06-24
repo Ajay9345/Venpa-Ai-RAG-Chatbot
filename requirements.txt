@@ -8,6 +8,6 @@ groq
 python-dotenv
 fastembed
 rank_bm25
-langchain-chromadb
+langchain-chroma
 torch
 torchvision
