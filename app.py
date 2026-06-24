@@ -11,7 +11,7 @@ st.set_page_config(
     page_title="Venpa AI Copilot",
     page_icon="⚡",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 st.markdown("""
@@ -33,6 +33,22 @@ html, body, .stApp {
 [data-testid="stToolbar"],
 [data-testid="stDecoration"],
 [data-testid="stStatusWidget"] { display: none !important; }
+
+/* ── COMPLETELY REMOVE SIDEBAR ── */
+[data-testid="stSidebar"],
+[data-testid="stSidebarNav"],
+[data-testid="collapsedControl"],
+.css-1d391kg,
+section[data-testid="stSidebar"] {
+    display: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+}
 
 /* ── Kill ALL Streamlit top spacing ── */
 [data-testid="stAppViewContainer"],
@@ -65,219 +81,106 @@ html, body {
 }
 
 /* ─────────────────────────────────────────
-   SIDEBAR
-───────────────────────────────────────── */
-[data-testid="stSidebar"] {
-    background: #0D0D0D !important;
-    border-right: 1px solid rgba(255,255,255,0.06) !important;
-    width: 256px !important;
-}
-[data-testid="stSidebar"] > div:first-child {
-    padding: 0 !important;
-}
-[data-testid="stSidebarContent"] {
-    padding: 0 !important;
-}
-
-/* ── Sidebar inner ── */
-.sidebar-inner {
-    padding: 20px 16px 24px;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    gap: 0;
-}
-
-/* ── Logo block ── */
-.sb-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 4px 0 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    margin-bottom: 20px;
-}
-.sb-logomark {
-    width: 30px; height: 30px;
-    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-    border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; flex-shrink: 0;
-    box-shadow: 0 0 0 1px rgba(79,70,229,0.4);
-}
-.sb-brand {
-    font-size: 14px; font-weight: 600;
-    color: #fff; letter-spacing: -0.02em;
-}
-.sb-brand-sub {
-    font-size: 9.5px; font-family: 'JetBrains Mono', monospace;
-    color: rgba(255,255,255,0.28); letter-spacing: 0.08em;
-    margin-top: 1px; text-transform: uppercase;
-}
-
-/* ── New chat button ── */
-.sb-newchat {
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(79,70,229,0.12);
-    border: 1px solid rgba(79,70,229,0.3);
-    border-radius: 8px;
-    padding: 9px 12px;
-    font-size: 13px; font-weight: 500;
-    color: rgba(255,255,255,0.8);
-    cursor: pointer;
-    margin-bottom: 24px;
-    transition: all 0.18s ease;
-    width: 100%;
-    text-align: left;
-}
-.sb-newchat:hover {
-    background: rgba(79,70,229,0.2);
-    border-color: rgba(79,70,229,0.5);
-    color: #fff;
-}
-.sb-newchat-icon {
-    width: 16px; height: 16px;
-    background: rgba(79,70,229,0.5);
-    border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; flex-shrink: 0;
-}
-
-/* ── Sidebar section label ── */
-.sb-section-label {
-    font-size: 9.5px; font-weight: 600;
-    color: rgba(255,255,255,0.22);
-    letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0 4px;
-    margin-bottom: 6px;
-}
-
-/* ── Sidebar nav item ── */
-.sb-nav-item {
-    display: flex; align-items: center; gap: 9px;
-    padding: 7px 10px;
-    border-radius: 7px;
-    font-size: 13px; font-weight: 450;
-    color: rgba(255,255,255,0.45);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    margin-bottom: 1px;
-}
-.sb-nav-item:hover {
-    background: rgba(255,255,255,0.04);
-    color: rgba(255,255,255,0.75);
-}
-.sb-nav-item.active {
-    background: rgba(79,70,229,0.1);
-    color: rgba(255,255,255,0.88);
-    border: 1px solid rgba(79,70,229,0.2);
-}
-.sb-nav-icon {
-    font-size: 13px; width: 16px; text-align: center; flex-shrink: 0;
-}
-.sb-nav-gap { margin-bottom: 16px; }
-
-/* ── KB Stats ── */
-.sb-stats {
-    margin-top: auto;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-.sb-stat-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 5px 4px;
-    font-size: 11px;
-}
-.sb-stat-label { color: rgba(255,255,255,0.28); }
-.sb-stat-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px; color: #10B981; font-weight: 500;
-}
-.sb-live-badge {
-    display: flex; align-items: center; gap: 5px;
-    background: rgba(16,185,129,0.08);
-    border: 1px solid rgba(16,185,129,0.18);
-    border-radius: 6px; padding: 5px 9px; margin-top: 10px;
-    font-size: 10.5px; font-family: 'JetBrains Mono', monospace;
-    color: #10B981; letter-spacing: 0.06em;
-}
-.sb-live-dot {
-    width: 5px; height: 5px; border-radius: 50%;
-    background: #10B981;
-    animation: livepulse 2s ease infinite;
-}
-@keyframes livepulse {
-    0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
-    50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(16,185,129,0); }
-}
-
-/* ─────────────────────────────────────────
    TOP HEADER BAR
 ───────────────────────────────────────── */
 .v-header {
-    display: flex; align-items: center;
+    display: flex;
+    align-items: center;
     padding: 14px 28px;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     background: rgba(10,10,10,0.9);
     backdrop-filter: blur(12px);
-    position: sticky; top: 0; z-index: 100;
+    position: sticky;
+    top: 0;
+    z-index: 100;
     gap: 16px;
 }
 .v-header-left {
-    display: flex; align-items: center; gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     flex: 1;
 }
 .v-header-logomark {
-    width: 26px; height: 26px;
+    width: 26px;
+    height: 26px;
     background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
     border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 12px;
 }
 .v-header-brand {
-    font-size: 13px; font-weight: 600; color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
     letter-spacing: -0.02em;
 }
 .v-header-divider {
-    width: 1px; height: 18px;
+    width: 1px;
+    height: 18px;
     background: rgba(255,255,255,0.1);
     margin: 0 4px;
 }
 .v-header-title {
-    font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6);
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
 }
 
 .v-header-center {
-    text-align: center; flex: 1.4;
+    text-align: center;
+    flex: 1.4;
 }
 .v-header-center-title {
-    font-size: 14px; font-weight: 600; color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
     letter-spacing: -0.02em;
 }
 .v-header-center-sub {
-    font-size: 10px; font-family: 'JetBrains Mono', monospace;
-    color: rgba(255,255,255,0.25); letter-spacing: 0.07em;
-    text-transform: uppercase; margin-top: 1px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-top: 1px;
 }
 
 .v-header-right {
-    display: flex; align-items: center; gap: 8px;
-    flex: 1; justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    justify-content: flex-end;
 }
 .v-indicator {
-    display: flex; align-items: center; gap: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 6px; padding: 4px 9px;
-    font-size: 10.5px; font-family: 'JetBrains Mono', monospace;
-    color: rgba(255,255,255,0.35); letter-spacing: 0.04em;
+    border-radius: 6px;
+    padding: 4px 9px;
+    font-size: 10.5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.04em;
 }
 .v-indicator.green { color: #10B981; border-color: rgba(16,185,129,0.2); background: rgba(16,185,129,0.06); }
 .v-indicator.blue { color: #60A5FA; border-color: rgba(96,165,250,0.2); background: rgba(96,165,250,0.06); }
 .v-ind-dot {
-    width: 4px; height: 4px; border-radius: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
     background: currentColor;
     animation: livepulse 2.5s ease infinite;
+}
+
+@keyframes livepulse {
+    0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(16,185,129,0); }
 }
 
 /* ─────────────────────────────────────────
@@ -328,18 +231,26 @@ html, body {
     margin-bottom: 28px;
 }
 .v-hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     background: rgba(79,70,229,0.1);
     border: 1px solid rgba(79,70,229,0.25);
-    border-radius: 999px; padding: 4px 12px;
-    font-size: 11px; font-family: 'JetBrains Mono', monospace;
-    color: #818CF8; letter-spacing: 0.06em;
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #818CF8;
+    letter-spacing: 0.06em;
     margin-bottom: 20px;
 }
 .v-hero-title {
-    font-size: 2rem; font-weight: 700;
-    letter-spacing: -0.04em; color: #fff;
-    line-height: 1.15; margin-bottom: 12px;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 12px;
 }
 .v-hero-title em {
     font-style: normal;
@@ -349,53 +260,69 @@ html, body {
     background-clip: text;
 }
 .v-hero-sub {
-    font-size: 0.88rem; color: rgba(255,255,255,0.38);
-    line-height: 1.75; max-width: 560px;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.38);
+    line-height: 1.75;
+    max-width: 560px;
 }
 
 /* ── Metrics ── */
 .v-metrics {
-    display: flex; gap: 0;
+    display: flex;
+    gap: 0;
     margin: 24px 0 28px;
     border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 10px; overflow: hidden;
+    border-radius: 10px;
+    overflow: hidden;
 }
 .v-metric {
-    flex: 1; padding: 14px 18px;
+    flex: 1;
+    padding: 14px 18px;
     border-right: 1px solid rgba(255,255,255,0.07);
     position: relative;
 }
 .v-metric:last-child { border-right: none; }
 .v-metric-val {
-    font-size: 1.4rem; font-weight: 700;
-    color: #fff; letter-spacing: -0.04em;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.04em;
     line-height: 1;
     margin-bottom: 4px;
 }
 .v-metric-val span {
-    font-size: 0.85rem; font-weight: 500;
+    font-size: 0.85rem;
+    font-weight: 500;
     color: #818CF8;
 }
 .v-metric-label {
-    font-size: 10.5px; color: rgba(255,255,255,0.28);
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.28);
     letter-spacing: 0.03em;
 }
 
 /* ── Quick Action Cards ── */
 .v-cards {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 }
 .v-card {
     background: #111111;
     border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 10px; padding: 14px;
+    border-radius: 10px;
+    padding: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
-    position: relative; overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 .v-card::before {
     content: '';
-    position: absolute; top: 0; left: 0; right: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(79,70,229,0.4), transparent);
     opacity: 0;
@@ -409,24 +336,34 @@ html, body {
 }
 .v-card:hover::before { opacity: 1; }
 .v-card-icon {
-    font-size: 18px; margin-bottom: 10px;
-    width: 34px; height: 34px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    width: 34px;
+    height: 34px;
     background: rgba(79,70,229,0.1);
     border: 1px solid rgba(79,70,229,0.2);
     border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .v-card-title {
-    font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,0.8);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
     margin-bottom: 4px;
 }
 .v-card-desc {
-    font-size: 11px; color: rgba(255,255,255,0.28);
+    font-size: 11px;
+    color: rgba(255,255,255,0.28);
     line-height: 1.5;
 }
 .v-card-arrow {
-    position: absolute; top: 12px; right: 12px;
-    font-size: 12px; color: rgba(255,255,255,0.18);
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.18);
     transition: all 0.2s ease;
 }
 .v-card:hover .v-card-arrow {
@@ -438,20 +375,26 @@ html, body {
    CHAT AREA
 ───────────────────────────────────────── */
 .v-chat-header {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 20px;
 }
 .v-chat-title {
-    font-size: 12px; font-weight: 600;
+    font-size: 12px;
+    font-weight: 600;
     color: rgba(255,255,255,0.3);
-    letter-spacing: 0.06em; text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 .v-msg-count {
-    font-size: 10.5px; font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-family: 'JetBrains Mono', monospace;
     color: rgba(255,255,255,0.18);
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 5px; padding: 2px 7px;
+    border-radius: 5px;
+    padding: 2px 7px;
 }
 
 /* Back button */
@@ -462,6 +405,7 @@ html, body {
     color: rgba(255,255,255,0.5) !important;
     font-size: 12px !important;
     padding: 5px 12px !important;
+    min-height: 44px !important;
     margin-bottom: 12px !important;
     transition: all 0.15s ease !important;
 }
@@ -539,7 +483,6 @@ html, body {
     flex-shrink: 0 !important;
     z-index: 10 !important;
 }
-/* nuke every layer inside the chat input */
 [data-testid="stChatInput"],
 [data-testid="stChatInput"] *:not(textarea):not(button):not(button *) {
     background: transparent !important;
@@ -549,7 +492,6 @@ html, body {
     padding: 0 !important;
 }
 
-/* pill wrapper — the one visible container */
 [data-testid="stChatInput"] > div {
     background: rgba(255,255,255,0.04) !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
@@ -566,7 +508,6 @@ html, body {
     box-shadow: 0 0 0 3px rgba(79,70,229,0.15), 0 2px 24px rgba(79,70,229,0.18) !important;
 }
 
-/* textarea */
 [data-testid="stChatInput"] textarea {
     font-family: 'Inter', sans-serif !important;
     font-size: 0.875rem !important;
@@ -585,7 +526,6 @@ html, body {
     font-style: italic !important;
 }
 
-/* send button */
 [data-testid="stChatInput"] button {
     background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
     border-radius: 999px !important;
@@ -607,13 +547,17 @@ html, body {
    RIGHT PANEL
 ───────────────────────────────────────── */
 .rp-section-label {
-    font-size: 9.5px; font-weight: 600;
+    font-size: 9.5px;
+    font-weight: 600;
     color: rgba(255,255,255,0.22);
-    letter-spacing: 0.1em; text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     margin-bottom: 10px;
 }
 .rp-chip {
-    display: flex; align-items: flex-start; gap: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
     padding: 9px 10px;
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 8px;
@@ -621,49 +565,66 @@ html, body {
     margin-bottom: 5px;
     transition: all 0.15s ease;
     background: #111;
+    min-height: 44px;
 }
 .rp-chip:hover {
     border-color: rgba(79,70,229,0.3);
     background: rgba(79,70,229,0.06);
 }
 .rp-chip-icon {
-    font-size: 11px; opacity: 0.4; flex-shrink: 0; margin-top: 1px;
+    font-size: 11px;
+    opacity: 0.4;
+    flex-shrink: 0;
+    margin-top: 1px;
 }
 .rp-chip-text {
-    font-size: 11.5px; color: rgba(255,255,255,0.48);
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.48);
     line-height: 1.5;
 }
 .rp-chip:hover .rp-chip-text { color: rgba(255,255,255,0.72); }
 
 .rp-service-card {
-    display: flex; align-items: center; gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     padding: 9px 10px;
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 8px;
     margin-bottom: 5px;
     background: #111;
+    min-height: 44px;
 }
 .rp-service-icon {
-    width: 28px; height: 28px; flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
     border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 13px;
 }
 .rp-service-name {
-    font-size: 12px; font-weight: 500;
+    font-size: 12px;
+    font-weight: 500;
     color: rgba(255,255,255,0.6);
 }
 .rp-service-badge {
-    margin-left: auto; flex-shrink: 0;
-    font-size: 9.5px; font-family: 'JetBrains Mono', monospace;
+    margin-left: auto;
+    flex-shrink: 0;
+    font-size: 9.5px;
+    font-family: 'JetBrains Mono', monospace;
     color: #10B981;
     background: rgba(16,185,129,0.08);
     border: 1px solid rgba(16,185,129,0.15);
-    border-radius: 4px; padding: 2px 6px;
+    border-radius: 4px;
+    padding: 2px 6px;
 }
 
 .rp-divider {
-    border: none; border-top: 1px solid rgba(255,255,255,0.05);
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.05);
     margin: 18px 0;
 }
 
@@ -673,9 +634,214 @@ html, body {
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-thumb {
-    background: rgba(79,70,229,0.2); border-radius: 99px;
+    background: rgba(79,70,229,0.2);
+    border-radius: 99px;
 }
 ::-webkit-scrollbar-track { background: transparent; }
+
+/* ═══════════════════════════════════════════
+   TABLET (769px – 1024px)
+═══════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .v-header {
+        padding: 12px 20px;
+        gap: 10px;
+    }
+    .v-header-center-title { font-size: 13px; }
+    .v-indicator { font-size: 9.5px; padding: 3px 7px; }
+
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        padding: 0 20px !important;
+    }
+    [data-testid="stBottom"] {
+        padding: 0 20px 16px !important;
+    }
+    [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:first-child {
+        padding: 20px 20px 0 !important;
+    }
+    [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:last-child {
+        padding: 20px 14px !important;
+    }
+
+    .v-hero-title { font-size: 1.65rem; }
+    .v-hero-sub { font-size: 0.82rem; max-width: 100%; }
+
+    .v-metrics {
+        flex-wrap: wrap;
+        border-radius: 10px;
+    }
+    .v-metric {
+        flex: 1 1 48%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .v-metric:nth-child(odd) {
+        border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .v-metric:nth-last-child(-n+2) { border-bottom: none; }
+
+    .v-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE (≤768px)
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+    /* Lock / scroll fixes for mobile */
+    html, body {
+        overflow: auto !important;
+        height: auto !important;
+    }
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"] {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    /* ── Mobile Header ── */
+    .v-header {
+        flex-direction: column;
+        align-items: center;
+        padding: 14px 16px 12px;
+        gap: 8px;
+        text-align: center;
+    }
+    .v-header-left {
+        justify-content: center;
+        flex: none;
+        width: 100%;
+    }
+    .v-header-center {
+        flex: none;
+        width: 100%;
+    }
+    .v-header-center-title { font-size: 13px; }
+    .v-header-center-sub { font-size: 9px; }
+    .v-header-right {
+        flex: none;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .v-indicator { font-size: 9px; padding: 3px 7px; }
+    .v-header-divider { display: none; }
+    .v-header-title { display: none; }
+
+    /* ── Column stack ── */
+    [data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+        overflow: auto !important;
+        height: auto !important;
+    }
+    [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        overflow: visible !important;
+    }
+    [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:first-child {
+        padding: 16px 12px 0 !important;
+    }
+    [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:last-child {
+        border-left: none !important;
+        border-top: 1px solid rgba(255,255,255,0.06) !important;
+        padding: 16px 12px !important;
+        overflow-y: visible !important;
+    }
+
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        padding: 0 12px !important;
+    }
+
+    /* ── Mobile Hero ── */
+    .v-hero {
+        padding-bottom: 20px;
+        margin-bottom: 16px;
+    }
+    .v-hero-eyebrow {
+        font-size: 10px;
+        padding: 3px 10px;
+        margin-bottom: 14px;
+    }
+    .v-hero-title {
+        font-size: 1.5rem;
+        letter-spacing: -0.03em;
+    }
+    .v-hero-sub {
+        font-size: 0.8rem;
+        max-width: 100%;
+        line-height: 1.65;
+    }
+
+    /* ── Mobile Metrics: 2×2 grid ── */
+    .v-metrics {
+        flex-wrap: wrap;
+        margin: 16px 0 20px;
+    }
+    .v-metric {
+        flex: 1 1 48%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        padding: 12px 14px;
+    }
+    .v-metric:nth-child(odd) {
+        border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .v-metric:nth-last-child(-n+2) { border-bottom: none; }
+    .v-metric-val { font-size: 1.2rem; }
+
+    /* ── Mobile Cards: 1 per row ── */
+    .v-cards {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    .v-card {
+        padding: 12px;
+        min-height: 44px;
+    }
+    .v-card-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    /* ── Mobile Chat Bubbles ── */
+    .stChatMessage:has([data-testid="chatAvatarIcon-assistant"])
+    [data-testid="stChatMessageContent"] {
+        max-width: 95% !important;
+        font-size: 0.83rem !important;
+        padding: 12px 13px !important;
+    }
+    .stChatMessage:has([data-testid="chatAvatarIcon-user"])
+    [data-testid="stChatMessageContent"] {
+        max-width: 95% !important;
+        font-size: 0.83rem !important;
+        padding: 10px 13px !important;
+    }
+
+    /* ── Mobile Input ── */
+    [data-testid="stBottom"] {
+        padding: 0 10px 14px !important;
+        position: sticky !important;
+        bottom: 0 !important;
+    }
+
+    /* ── Right panel chips full width ── */
+    .rp-chip, .rp-service-card {
+        width: 100%;
+    }
+
+    /* ── Buttons touch-friendly ── */
+    [data-testid="stButton"] button {
+        min-height: 44px !important;
+        font-size: 13px !important;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -694,83 +860,6 @@ def load_rag():
 
 with st.spinner("Connecting knowledge base…"):
     retriever = load_rag()
-
-with st.sidebar:
-    st.markdown("""
-    <div class="sidebar-inner">
-      <!-- Logo -->
-      <div class="sb-logo">
-        <div class="sb-logomark">⚡</div>
-        <div>
-          <div class="sb-brand">Venpa AI</div>
-          <div class="sb-brand-sub">Autonomous AI Agency</div>
-        </div>
-      </div>
-
-      <!-- New Chat -->
-      <div class="sb-newchat">
-        <div class="sb-newchat-icon">✦</div>
-        New conversation
-      </div>
-
-      <!-- Services Nav -->
-      <div class="sb-section-label">Services</div>
-      <div class="sb-nav-item active">
-        <span class="sb-nav-icon">🤖</span> AI Agents
-      </div>
-      <div class="sb-nav-item">
-        <span class="sb-nav-icon">🎙️</span> Voice Agents
-      </div>
-      <div class="sb-nav-item">
-        <span class="sb-nav-icon">💬</span> Chatbots
-      </div>
-      <div class="sb-nav-item">
-        <span class="sb-nav-icon">🔍</span> GEO / AEO
-      </div>
-      <div class="sb-nav-item">
-        <span class="sb-nav-icon">🗄️</span> RAG Systems
-      </div>
-      <div class="sb-nav-item">
-        <span class="sb-nav-icon">⚙️</span> AI Automation
-      </div>
-      <div class="sb-nav-item sb-nav-gap">
-        <span class="sb-nav-icon">👤</span> AI Twin
-      </div>
-
-      <!-- Company Nav -->
-      <div class="sb-section-label">Company</div>
-      <div class="sb-nav-item">
-        <span class="sb-nav-icon">🏢</span> About Venpa AI
-      </div>
-      <div class="sb-nav-item">
-        <span class="sb-nav-icon">👨‍💼</span> Founder
-      </div>
-      <div class="sb-nav-item sb-nav-gap">
-        <span class="sb-nav-icon">📩</span> Contact
-      </div>
-
-      <!-- KB Stats -->
-      <div class="sb-stats">
-        <div class="sb-section-label">Knowledge Base</div>
-        <div class="sb-stat-row">
-          <span class="sb-stat-label">Documents</span>
-          <span class="sb-stat-val">Connected</span>
-        </div>
-        <div class="sb-stat-row">
-          <span class="sb-stat-label">Retrieval</span>
-          <span class="sb-stat-val">Semantic</span>
-        </div>
-        <div class="sb-stat-row">
-          <span class="sb-stat-label">Memory</span>
-          <span class="sb-stat-val">5 turns</span>
-        </div>
-        <div class="sb-live-badge">
-          <div class="sb-live-dot"></div>
-          SYSTEM ONLINE
-        </div>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
 
 st.markdown("""
 <div class="v-header">
@@ -845,93 +934,93 @@ with col_center:
     chat_container = st.container(height=chat_height, border=False)
 
     with chat_container:
-     
-     if len(st.session_state.messages) == 0:
-        st.markdown("""
-        <div class="v-hero">
-          <div class="v-hero-eyebrow">
-            ⚡ Autonomous AI Copilot
-          </div>
-          <div class="v-hero-title">
-            Your <em>Autonomous AI</em><br>Consultant
-          </div>
-          <div class="v-hero-sub">
-            Explore AI agents, automation systems, growth infrastructure,
-            RAG deployments, and enterprise AI transformation — all in one conversation.
-          </div>
 
-          <div class="v-metrics">
-            <div class="v-metric">
-              <div class="v-metric-val">97<span>%</span></div>
-              <div class="v-metric-label">Client Retention</div>
-            </div>
-            <div class="v-metric">
-              <div class="v-metric-val">14<span>d</span></div>
-              <div class="v-metric-label">Prototype Delivery</div>
-            </div>
-            <div class="v-metric">
-              <div class="v-metric-val">99.9<span>%</span></div>
-              <div class="v-metric-label">Uptime SLA</div>
-            </div>
-            <div class="v-metric">
-              <div class="v-metric-val">3<span>×</span></div>
-              <div class="v-metric-label">Average ROI</div>
-            </div>
-          </div>
+        if len(st.session_state.messages) == 0:
+            st.markdown("""
+            <div class="v-hero">
+              <div class="v-hero-eyebrow">
+                ⚡ Autonomous AI Copilot
+              </div>
+              <div class="v-hero-title">
+                Your <em>Autonomous AI</em><br>Consultant
+              </div>
+              <div class="v-hero-sub">
+                Explore AI agents, automation systems, growth infrastructure,
+                RAG deployments, and enterprise AI transformation — all in one conversation.
+              </div>
 
-          <div class="v-cards">
-            <div class="v-card">
-              <div class="v-card-arrow">↗</div>
-              <div class="v-card-icon">🔭</div>
-              <div class="v-card-title">Explore Services</div>
-              <div class="v-card-desc">Full stack AI offerings for enterprise teams</div>
-            </div>
-            <div class="v-card">
-              <div class="v-card-arrow">↗</div>
-              <div class="v-card-icon">🧪</div>
-              <div class="v-card-title">AI Readiness Audit</div>
-              <div class="v-card-desc">Assess your org's current AI maturity</div>
-            </div>
-            <div class="v-card">
-              <div class="v-card-arrow">↗</div>
-              <div class="v-card-icon">⚡</div>
-              <div class="v-card-title">Automation Wins</div>
-              <div class="v-card-desc">Identify high-impact automation opportunities</div>
-            </div>
-            <div class="v-card">
-              <div class="v-card-arrow">↗</div>
-              <div class="v-card-icon">📅</div>
-              <div class="v-card-title">Strategy Call</div>
-              <div class="v-card-desc">Book a session with the Venpa AI team</div>
-            </div>
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
+              <div class="v-metrics">
+                <div class="v-metric">
+                  <div class="v-metric-val">97<span>%</span></div>
+                  <div class="v-metric-label">Client Retention</div>
+                </div>
+                <div class="v-metric">
+                  <div class="v-metric-val">14<span>d</span></div>
+                  <div class="v-metric-label">Prototype Delivery</div>
+                </div>
+                <div class="v-metric">
+                  <div class="v-metric-val">99.9<span>%</span></div>
+                  <div class="v-metric-label">Uptime SLA</div>
+                </div>
+                <div class="v-metric">
+                  <div class="v-metric-val">3<span>×</span></div>
+                  <div class="v-metric-label">Average ROI</div>
+                </div>
+              </div>
 
-     if len(st.session_state.messages) > 0:
-         msg_count = len([m for m in st.session_state.messages if m["role"] == "user"])
-         st.markdown(f"""
-         <div class="v-chat-header">
-           <span class="v-chat-title">Conversation</span>
-           <span class="v-msg-count">{msg_count} message{'s' if msg_count != 1 else ''}</span>
-         </div>
-         """, unsafe_allow_html=True)
-         if st.button("← Back to Home", key="back_home"):
-             st.session_state.messages = []
-             st.session_state.memory = ConversationMemory(max_turns=5)
-             st.rerun()
+              <div class="v-cards">
+                <div class="v-card">
+                  <div class="v-card-arrow">↗</div>
+                  <div class="v-card-icon">🔭</div>
+                  <div class="v-card-title">Explore Services</div>
+                  <div class="v-card-desc">Full stack AI offerings for enterprise teams</div>
+                </div>
+                <div class="v-card">
+                  <div class="v-card-arrow">↗</div>
+                  <div class="v-card-icon">🧪</div>
+                  <div class="v-card-title">AI Readiness Audit</div>
+                  <div class="v-card-desc">Assess your org's current AI maturity</div>
+                </div>
+                <div class="v-card">
+                  <div class="v-card-arrow">↗</div>
+                  <div class="v-card-icon">⚡</div>
+                  <div class="v-card-title">Automation Wins</div>
+                  <div class="v-card-desc">Identify high-impact automation opportunities</div>
+                </div>
+                <div class="v-card">
+                  <div class="v-card-arrow">↗</div>
+                  <div class="v-card-icon">📅</div>
+                  <div class="v-card-title">Strategy Call</div>
+                  <div class="v-card-desc">Book a session with the Venpa AI team</div>
+                </div>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
 
-     if len(st.session_state.messages) == 0:
-         with st.chat_message("assistant"):
-             st.markdown(
-                 "Hello — I'm Venpa's AI Copilot. I can walk you through our autonomous "
-                 "AI agents, voice agents, GEO & AEO strategies, RAG deployments, and "
-                 "how we design enterprise AI transformation. What would you like to explore?"
-             )
+        if len(st.session_state.messages) > 0:
+            msg_count = len([m for m in st.session_state.messages if m["role"] == "user"])
+            st.markdown(f"""
+            <div class="v-chat-header">
+              <span class="v-chat-title">Conversation</span>
+              <span class="v-msg-count">{msg_count} message{'s' if msg_count != 1 else ''}</span>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button("← Back to Home", key="back_home"):
+                st.session_state.messages = []
+                st.session_state.memory = ConversationMemory(max_turns=5)
+                st.rerun()
 
-     for msg in st.session_state.messages:
-         with st.chat_message(msg["role"]):
-             st.markdown(msg["content"])
+        if len(st.session_state.messages) == 0:
+            with st.chat_message("assistant"):
+                st.markdown(
+                    "Hello — I'm Venpa's AI Copilot. I can walk you through our autonomous "
+                    "AI agents, voice agents, GEO & AEO strategies, RAG deployments, and "
+                    "how we design enterprise AI transformation. What would you like to explore?"
+                )
+
+        for msg in st.session_state.messages:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
 
     user_input = st.chat_input("Ask anything about Venpa AI…")
 
